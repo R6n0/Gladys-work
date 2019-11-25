@@ -14,7 +14,16 @@ const DiscoverTab = ({ children, ...props }) => (
         <Text id="integration.zigbee2mqtt.discover.title" />
       </h1>
       <div class="page-options d-flex">
-        <button class="btn btn-outline-primary" onClick={props.discover} disabled={props.discoverZigbee2mqtt}>
+        <button class="btn btn-outline-success" onClick={props.filterNew} disabled={props.discoverZigbee2mqtt}>
+          <Text id="integration.zigbee2mqtt.discover.newDevices" /> <i class="fe fe-radio" />
+        </button>
+        <button class="btn btn-outline-primary" onClick={props.filterAlreadyCreated} disabled={props.discoverZigbee2mqtt}>
+          <Text id="integration.zigbee2mqtt.discover.alreadyCreatedDevices" />
+        </button>
+        <button class="btn btn-outline-danger" onClick={props.filterAll} disabled={props.discoverZigbee2mqtt}>
+          <Text id="integration.zigbee2mqtt.discover.allDevices" />
+        </button>
+        <button class="btn btn-outline-primary ml-2" onClick={props.discover} disabled={props.discoverZigbee2mqtt}>
           <Text id="integration.zigbee2mqtt.discover.scanButton" /> <i class="fe fe-radio" />
         </button>
       </div>
@@ -37,7 +46,7 @@ const DiscoverTab = ({ children, ...props }) => (
         <div class={cx('dimmer-content', style.zigbee2mqttListBody)}>
           <div class="row">
             {props.zigbee2mqttDevices &&
-              props.zigbee2mqttDevices.map((device, index) => (
+              props.zigbee2mqttDevicesFiltered.map((device, index) => (
                 <DiscoveredBox {...props} device={device} deviceIndex={index} />
               ))}
             {!props.zigbee2mqttDevices || (props.zigbee2mqttDevices.length === 0 && <EmptyState />)}

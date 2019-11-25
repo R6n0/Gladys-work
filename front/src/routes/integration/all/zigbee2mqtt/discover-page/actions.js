@@ -27,10 +27,47 @@ function createActions(store) {
     setDiscoveredDevices(state, zigbee2mqttDevices) {
       clearTimeout(scanTimer);
 
+      this.filterNew(state, zigbee2mqttDevices);
+
       store.setState({
         zigbee2mqttDevices,
         discoverZigbee2mqtt: false,
         discoverZigbee2mqttError: null
+      });
+    },
+    filterNew(state, zigbee2mqttDevices) {
+      let zigbee2mqttDevicesExternalId = [];
+      zigbee2mqttDevices.forEach( item => {
+        zigbee2mqttDevicesExternalId.push(item.external_id);
+      });
+
+      let zigbee2mqttDevicesFiltered = zigbee2mqttDevices.filter( function (item) {
+        return !zigbee2mqttDevicesExternalId.includes(item.external_id)
+      });
+
+      store.setState({
+        zigbee2mqttDevicesFiltered,
+      });
+    },
+    filterAlreadyCreated(state, zigbee2mqttDevices) {
+      let zigbee2mqttDevicesExternalId = [];
+      zigbee2mqttDevices.forEach( item => {
+        zigbee2mqttDevicesExternalId.push(item.external_id);
+      });
+      let zigbee2mqttDevicesFiltered = zigbee2mqttDevices.filter( function (item) {
+        return zigbee2mqttDevicesExternalId.includes(item.external_id)
+      });
+
+      store.setState({
+        zigbee2mqttDevicesFiltered,
+      });
+    },
+    filterAll(state, zigbee2mqttDevices) {
+
+      let zigbee2mqttDevicesFiltered = zigbee2mqttDevices;
+
+      store.setState({
+        zigbee2mqttDevicesFiltered,
       });
     },
     updateDeviceField(state, index, field, value) {

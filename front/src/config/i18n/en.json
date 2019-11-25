@@ -275,6 +275,9 @@
       "discover": {
         "title": "Zigbee2mqtt discover",
         "noDeviceDiscovered": "No device discovered, please click on scan button.",
+        "newDevices": "New Devices",
+        "alreadyCreatedDevices": "Already created",
+        "allDevices": "All",
         "scanButton": "Scan",
         "noResponse": "Scan never answer, please check your network.",
         "serverNoResponse": "Gladys server is not available."

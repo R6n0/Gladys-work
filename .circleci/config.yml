@@ -150,7 +150,7 @@ workflows:
             tags:
               only: /v*/
             branches:
-              only: zigbee2mqtt-service-reno
+              only: zigbee2mqtt-test
 #      - build-amd64:
 #          requires:
 #            - build-front

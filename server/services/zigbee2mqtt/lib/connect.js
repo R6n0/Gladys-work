@@ -13,7 +13,7 @@ function connect(driverPath) {
   }
   // Loads MQTT service
   logger.log('starting MQTT service for Zigbee2mqtt');
-  this.mqttClient = this.mqtt.connect('mqtt://mqtt-broker', {
+  this.mqttClient = this.mqttLibrary.connect('mqtt://mqtt-broker', {
     username: '',
     password: '',
   });

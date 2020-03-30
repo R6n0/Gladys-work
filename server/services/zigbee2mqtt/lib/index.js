@@ -8,12 +8,14 @@ const { status } = require('./status');
 /**
  * @description Add ability to connect to Zigbee2mqtt devices.
  * @param {Object} gladys - Gladys instance.
+ * @param {Object} mqttLibrary - MQTT lib.
  * @param {string} serviceId - UUID of the service in DB.
  * @example
  * const zigbee2mqttHandler = new Zigbee2mqttHandler(gladys, serviceId);
  */
-const Zigbee2mqttHandler = function Zigbee2mqttHandler(gladys, serviceId) {
+const Zigbee2mqttHandler = function Zigbee2mqttHandler(gladys, mqttLibrary, serviceId) {
   this.gladys = gladys;
+  this.mqttLibrary = mqttLibrary;
   this.serviceId = serviceId;
   this.mqttClient = null;
   this.mqttDevices = {};

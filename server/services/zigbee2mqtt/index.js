@@ -4,7 +4,7 @@ const Zigbee2mqttController = require('./api/zigbee2mqtt.controller');
 const { ServiceNotConfiguredError } = require('../../utils/coreErrors');
 
 module.exports = function Zigbee2mqttService(gladys, serviceId) {
-  const zigbee2mqttHandler = new Zigbee2mqttHandler(gladys, serviceId);
+  const zigbee2mqttHandler = new Zigbee2mqttHandler(gladys, mqtt, serviceId);
 
   /**
    * @public

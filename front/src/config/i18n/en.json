@@ -271,7 +271,7 @@
       "settingsTab": "Settings",
       "status": {
         "notConfigured": "Zigbee2mqtt USB dongle is not configured, please go to ",
-        "notConnected": "Zigbee2mqtt service failed to connect to network, please go to ",
+        "notConnected": "Zigbee2mqtt service failed to connect, please go to ",
         "settingsPageLink": "USB dongle configuration page",
         "setupPageLink": "Zigbee2mqtt configuration page"
       },
@@ -281,10 +281,9 @@
         "zigbee2mqttUsbDriverPathLabel": "Select the USB port where your Zigbee2mqtt Dongle is connected",
         "saveButton": "Save Settings",
         "refreshButton": "Refresh USB list",
-        "notConnected": "Gladys is not connected to any Zigbee2mqtt USB Dongle.",
-        "connectedWithSuccess": "Zigbee2mqtt USB Dongle connected with success.",
-        "connecting": "Trying to connect to Zigbee2mqtt USB Dongle...",
-        "driverFailedError": "An error occured while trying to connect to Zigbee2mqtt USB Dongle."
+        "notAttached": "Gladys is not attached to any Zigbee2mqtt USB Dongle.",
+        "attached": "Zigbee2mqtt USB Dongle attached.",
+        "saving": "Trying to save USB Dongle configuration...",
       },
       "device": {
         "title": "Zigbee2mqtt devices",

@@ -1,11 +1,16 @@
 const logger = require('../../../utils/logger');
 
 /**
- * @description Initialiaze service with dependencies and connect to devices.
+ * @description Initialize service with dependencies and connect to devices.
+ * @param {string} driverPath - Path to the USB driver.
  * @example
- * connect();
+ * connect(driverPath);
  */
-function connect() {
+function connect(driverPath) {
+  
+  if (driverPath) {
+    this.usbConfigured = true; 
+  }
   // Loads MQTT service
   logger.log('starting MQTT service for Zigbee2mqtt');
   this.mqttClient = this.mqtt.connect('mqtt://mqtt-broker', {

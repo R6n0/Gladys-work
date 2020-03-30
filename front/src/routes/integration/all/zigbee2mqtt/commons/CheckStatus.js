@@ -12,16 +12,17 @@ class CheckStatus extends Component {
 
   render(props, {}) {
     let messageKey;
-//    let linkURL;
+    let linkURL;
     let linkText;
     if (!props.zigbee2mqttStatusUsbConfigured) {
-      messageKey = 'integration.zigbee2mqtt.status.notConfigured';
-//      linkUrl = '/dashboard/integration/device/zigbee2mqtt/settings';
+      messageKey = 'integration.zigbee2mqtt.status.notAttached';
+      linkUrl = '/dashboard/integration/device/zigbee2mqtt/settings';
       linkText = 'integration.zigbee2mqtt.status.settingsPageLink';
-    } else if (!props.zigbee2mqttStatusMqttConnected) {
-      messageKey = 'integration.zigbee2mqtt.status.notConnected';
+    } 
+    //else if (!props.zigbee2mqttStatusMqttConnected) {
+    //  messageKey = 'integration.zigbee2mqtt.status.notConnected';
 //      linkUrl = '/dashboard/integration/device/zigbee2mqtt/settings';
-//      linkText = 'integration.zigbee2mqtt.status.setupPageLink';
+    //  linkText = 'integration.zigbee2mqtt.status.setupPageLink';
     } else {
       return null;
     }
@@ -29,7 +30,7 @@ class CheckStatus extends Component {
     return (
       <div class="alert alert-warning">
         <Text id={messageKey} />
-        <Link href='/dashboard/integration/device/zigbee2mqtt/settings'>
+        <Link href={linkURL}>
           <Text id={linkText} />
         </Link>
       </div>

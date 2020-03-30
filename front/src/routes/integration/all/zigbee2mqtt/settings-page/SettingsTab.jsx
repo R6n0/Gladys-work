@@ -24,17 +24,17 @@ const SettingsTab = ({ children, ...props }) => (
         <div class="dimmer-content">
           {get(props, 'zigbee2mqttStatus.ready') && (
             <div class="alert alert-success">
-              <Text id="integration.zigbee2mqtt.settings.connectedWithSuccess" />
+              <Text id="integration.zigbee2mqtt.settings.attached" />
             </div>
           )}
           {!get(props, 'zigbee2mqttStatus.ready') && (
             <div class="alert alert-warning">
-              <Text id="integration.zigbee2mqtt.settings.notConnected" />
+              <Text id="integration.zigbee2mqtt.settings.notAttached" />
             </div>
           )}
-          {props.zigbee2mqttConnectionInProgress && (
+          {props.zigbee2mqttSavingInProgress && (
             <div class="alert alert-info">
-              <Text id="integration.zigbee2mqtt.settings.connecting" />
+              <Text id="integration.zigbee2mqtt.settings.saving" />
             </div>
           )}
           <p>
@@ -51,7 +51,7 @@ const SettingsTab = ({ children, ...props }) => (
               {props.usbPorts &&
                 props.usbPorts.map(usbPort => (
                   <option value={usbPort.comPath} selected={props.zigbee2mqttDriverPath === usbPort.comPath}>
-                    {usbPort.comName}
+                  {usbPort.comPath} - {usbPort.comName}
                   </option>
                 ))}
             </select>

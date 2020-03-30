@@ -58,13 +58,13 @@ const actions = store => {
         const zigbee2mqttStatus = await state.httpClient.get('/api/v1/service/zigbee2mqtt/status');
         store.setState({
           zigbee2mqttStatus,
-          zigbee2mqttConnectionInProgress: false,
+          zigbee2mqttSavingInProgress: false,
           zigbee2mqttGetStatusStatus: RequestStatus.Success
         });
       } catch (e) {
         store.setState({
           zigbee2mqttGetStatusStatus: RequestStatus.Error,
-          zigbee2mqttConnectionInProgress: false
+          zigbee2mqttSavingInProgress: false
         });
       }
     },

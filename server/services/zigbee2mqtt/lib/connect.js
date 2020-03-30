@@ -9,6 +9,7 @@ const logger = require('../../../utils/logger');
 function connect(driverPath) {
   
   if (driverPath) {
+    logger.info(`Zigbee2mqtt USB dongle attached to ${driverPath}`); 
     this.usbConfigured = true; 
   }
   // Loads MQTT service
@@ -19,6 +20,8 @@ function connect(driverPath) {
   });
   this.mqttClient.on('connect', () => {
     logger.info(`Connected to MQTT container mqtt://mqtt-broker`);
+    Object.keys(this.topicBinds).forEach((topic) => {
+      this.subscribe(topic, this.topicBinds[topic]);
     this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
       type: WEBSOCKET_MESSAGE_TYPES.ZIGBEE2MQTT.MQTT_CONNECTED,
     });
@@ -39,7 +42,7 @@ function connect(driverPath) {
   //  this.mqttService = this.gladys.service.getService('mqtt');
 
   // Subscribe to Zigbee2mqtt topics
-  this.mqttClient.subscribe('zigbee2mqtt/#', this.handleMqttMessage.bind(this));
+  this.subscribe('zigbee2mqtt/#', this.handleMqttMessage.bind(this));
 }
 
 module.exports = {

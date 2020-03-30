@@ -4,7 +4,7 @@ import { connect } from 'unistore/preact';
 import actions from './actions';
 import { Text } from 'preact-i18n';
 
-@connect('user,session,zigbee2mqttStatusConnected,zigbee2mqttStatusConfigured', actions)
+@connect('user,session,zigbee2mqttStatusMqttConnected,zigbee2mqttStatusUsbConfigured', actions)
 class CheckStatus extends Component {
   componentWillMount() {
     this.props.checkStatus();
@@ -12,10 +12,16 @@ class CheckStatus extends Component {
 
   render(props, {}) {
     let messageKey;
-    if (!props.zigbee2mqttStatusConfigured) {
-      messageKey = 'integration.mqtt.status.notConfigured';
-    } else if (!props.zigbee2mqttStatusConnected) {
-      messageKey = 'integration.mqtt.status.notConnected';
+//    let linkURL;
+    let linkText;
+    if (!props.zigbee2mqttStatusUsbConfigured) {
+      messageKey = 'integration.zigbee2mqtt.status.notConfigured';
+//      linkUrl = '/dashboard/integration/device/zigbee2mqtt/settings';
+      linkText = 'integration.zigbee2mqtt.status.settingsPageLink';
+    } else if (!props.zigbee2mqttStatusMqttConnected) {
+      messageKey = 'integration.zigbee2mqtt.status.notConnected';
+//      linkUrl = '/dashboard/integration/device/zigbee2mqtt/settings';
+//      linkText = 'integration.zigbee2mqtt.status.setupPageLink';
     } else {
       return null;
     }
@@ -23,8 +29,8 @@ class CheckStatus extends Component {
     return (
       <div class="alert alert-warning">
         <Text id={messageKey} />
-        <Link href="/dashboard/integration/device/zigbee2mqtt/setup">
-          <Text id="integration.zigbee2mqtt.status.setupPageLink" />
+        <Link href='/dashboard/integration/device/zigbee2mqtt/settings'>
+          <Text id={linkText} />
         </Link>
       </div>
     );

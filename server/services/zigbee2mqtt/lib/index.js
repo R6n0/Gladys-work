@@ -18,8 +18,8 @@ const Zigbee2mqttHandler = function Zigbee2mqttHandler(gladys, serviceId) {
   this.mqttClient = null;
   this.mqttDevices = {};
 
-  this.configured = false;
-  this.connected = false;
+  this.usbConfigured = false;
+  this.mqttConnected = false;
 };
 
 Zigbee2mqttHandler.prototype.connect = connect;

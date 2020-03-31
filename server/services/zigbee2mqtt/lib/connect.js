@@ -22,6 +22,7 @@ function connect(driverPath) {
     logger.info(`Connected to MQTT container mqtt://mqtt-broker`);
     Object.keys(this.topicBinds).forEach((topic) => {
       this.subscribe(topic, this.topicBinds[topic]);
+    });
     this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
       type: WEBSOCKET_MESSAGE_TYPES.ZIGBEE2MQTT.MQTT_CONNECTED,
     });

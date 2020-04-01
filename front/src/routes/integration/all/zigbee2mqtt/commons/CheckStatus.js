@@ -21,7 +21,7 @@ class CheckStatus extends Component {
 //   } 
     //else if (!props.zigbee2mqttStatusMqttConnected) {
     //  messageKey = 'integration.zigbee2mqtt.status.notConnected';
-//      linkUrl = '/dashboard/integration/device/zigbee2mqtt/settings';
+//      linkUrl = '/dashboard/integration/device/zigbee2mqtt/setup';
     //  linkText = 'integration.zigbee2mqtt.status.setupPageLink';
     } else {
       return null;

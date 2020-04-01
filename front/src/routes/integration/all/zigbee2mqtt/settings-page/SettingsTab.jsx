@@ -22,12 +22,12 @@ const SettingsTab = ({ children, ...props }) => (
       >
         <div class="loader" />
         <div class="dimmer-content">
-          {get(props, 'zigbee2mqttStatus.ready') && (
+          {props.zigbee2mqttStatus.Success && (
             <div class="alert alert-success">
               <Text id="integration.zigbee2mqtt.settings.attached" />
             </div>
           )}
-          {!get(props, 'zigbee2mqttStatus.ready') && (
+          {!props.zigbee2mqttStatus.Success && (
             <div class="alert alert-warning">
               <Text id="integration.zigbee2mqtt.settings.notAttached" />
             </div>

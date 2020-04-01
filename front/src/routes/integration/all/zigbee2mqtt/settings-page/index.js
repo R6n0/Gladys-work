@@ -8,7 +8,7 @@ import { RequestStatus } from '../../../../../utils/consts';
 //import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../server/utils/constants';
 
 @connect(
-  'user,session,usbPorts,zigbee2mqttDriverPath,getZigbee2mqttUsbPortStatus,getCurrentZigbee2mqttDriverPathStatus,zigbee2mqttGetStatusStatus,zigbee2mqttDisconnectStatus,connectZigbee2mqttStatus,zigbee2mqttConnectionInProgress',
+  'user,session,usbPorts,zigbee2mqttStatus,zigbee2mqttDriverPath,getZigbee2mqttUsbPortStatus,getCurrentZigbee2mqttDriverPathStatus,zigbee2mqttGetStatusStatus,zigbee2mqttSaveStatus,zigbee2mqttSavingInProgress',
   actions
 )
 class Zigbee2mqttSettingsPage extends Component {
@@ -28,8 +28,7 @@ class Zigbee2mqttSettingsPage extends Component {
       props.getZigbee2mqttUsbPortStatus === RequestStatus.Getting ||
       props.getCurrentZigbee2mqttDriverPathStatus === RequestStatus.Getting ||
       props.zigbee2mqttGetStatusStatus === RequestStatus.Getting ||
-      props.zigbee2mqttDisconnectStatus === RequestStatus.Getting ||
-      props.connectZigbee2mqttStatus === RequestStatus.Getting;
+      props.zigbee2mqttSaveStatus === RequestStatus.Getting;
 
     return (
       <Zigbee2mqttPage user={props.user}>

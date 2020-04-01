@@ -1,6 +1,7 @@
 import { Text } from 'preact-i18n';
 import get from 'get-value';
 import cx from 'classnames';
+import { RequestStatus } from '../../../../../utils/consts';
 
 const SettingsTab = ({ children, ...props }) => (
   <div class="card">
@@ -22,12 +23,12 @@ const SettingsTab = ({ children, ...props }) => (
       >
         <div class="loader" />
         <div class="dimmer-content">
-          {props.zigbee2mqttStatus.Success && (
+          {(props.zigbee2mqttStatus === RequestStatus.Success) && (
             <div class="alert alert-success">
               <Text id="integration.zigbee2mqtt.settings.attached" />
             </div>
           )}
-          {!props.zigbee2mqttStatus.Success && (
+          {!(props.zigbee2mqttStatus === RequestStatus.Success) && (
             <div class="alert alert-warning">
               <Text id="integration.zigbee2mqtt.settings.notAttached" />
             </div>

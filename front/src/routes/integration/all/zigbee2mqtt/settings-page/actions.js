@@ -41,19 +41,21 @@ const actions = store => {
     },
     async saveDriverPath(state) {
       store.setState({
-        zigbee2mqttStatus: RequestStatus.Getting
+        zigbee2mqttSaveStatus: RequestStatus.Getting,
+        zigbee2mqttSavingInProgress: true
       });
       try {
         await state.httpClient.post('/api/v1/service/zigbee2mqtt/variable/ZIGBEE2MQTT_DRIVER_PATH', {
           value: state.zigbee2mqttDriverPath
         });
         store.setState({
-          zigbee2mqttStatus: RequestStatus.Success,
-          zigbee2mqttSavingInProgress: true
+          zigbee2mqttSaveStatus: RequestStatus.Success,
+          zigbee2mqttSavingInProgress: false
         });
       } catch (e) {
         store.setState({
-          getCurrentZigbee2mqttDriverPathStatus: RequestStatus.Error
+          zigbee2mqttSaveStatus: RequestStatus.Error,
+          zigbee2mqttSavingInProgress: false
         });
       }
     },

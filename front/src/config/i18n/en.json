@@ -282,7 +282,7 @@
         "saveButton": "Save Settings",
         "refreshButton": "Refresh USB list",
         "notAttached": "Gladys is not attached to any Zigbee2mqtt USB Dongle.",
-        "attached": "Zigbee2mqtt USB Dongle attached.",
+        "attached": "Zigbee2mqtt USB Dongle configured.",
         "saving": "Saving USB Dongle configuration..."
       },
       "device": {

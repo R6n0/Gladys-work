@@ -23,12 +23,12 @@ const SettingsTab = ({ children, ...props }) => (
       >
         <div class="loader" />
         <div class="dimmer-content">
-          {(props.zigbee2mqttStatus === RequestStatus.Success) && (
+          {get(props, 'zigbee2mqttStatus.usbConfigured') && (
             <div class="alert alert-success">
               <Text id="integration.zigbee2mqtt.settings.attached" />
             </div>
           )}
-          {!(props.zigbee2mqttStatus === RequestStatus.Success) && (
+          {!get(props, 'zigbee2mqttStatus.usbConfigured') && (
             <div class="alert alert-warning">
               <Text id="integration.zigbee2mqtt.settings.notAttached" />
             </div>

@@ -15,7 +15,6 @@ class Zigbee2mqttSettingsPage extends Component {
 
   componentWillMount() {
     this.props.getUsbPorts();
-//    this.props.getInfos();
     this.props.getStatus();
     this.props.getCurrentZigbee2mqttDriverPath();
   }

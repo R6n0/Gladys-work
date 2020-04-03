@@ -48,7 +48,8 @@ const actions = store => {
         await state.httpClient.post('/api/v1/service/zigbee2mqtt/variable/ZIGBEE2MQTT_DRIVER_PATH', {
           value: state.zigbee2mqttDriverPath
         });
-        store.setState({
+        await state.httpClient.post('/api/v1/service/zigbee2mqtt/connect');
+         store.setState({
           zigbee2mqttSaveStatus: RequestStatus.Success,
           zigbee2mqttSavingInProgress: false
         });

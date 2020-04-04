@@ -33,6 +33,19 @@ module.exports = function VariableController(gladys) {
   }
 
   /**
+   * @api {delete} /api/v1/service/:service_name/variable/:variable_key Destroy service variable
+   * @apiName DestroyVariable
+   * @apiGroup Variable
+   *
+   * @apiParam {string} value value to destroy
+   */
+  async function destroyForLocalService(req, res) {
+    const service = await gladys.service.getLocalServiceByName(req.params.service_name);
+    const variable = await gladys.variable.destroy(req.params.variable_key, service.id);
+    res.json(variable);
+  }
+
+  /**
    * @api {post} /api/v1/variable/:variable_key Save variable
    * @apiName SaveVariable
    * @apiGroup Variable
@@ -66,7 +79,7 @@ module.exports = function VariableController(gladys) {
    *
    */
   async function destroy(req, res) {
-    await gladys.scene.destroy(req.params.variable_key);
+    await gladys.variable.destroy(req.params.variable_key);
     res.json({
       success: true,
     });
@@ -78,5 +91,6 @@ module.exports = function VariableController(gladys) {
     getValue: asyncMiddleware(getValue),
     destroy: asyncMiddleware(destroy),
     getByLocalService: asyncMiddleware(getByLocalService),
+    destroyByLocalService: asyncMiddleware(destroyByLocalService),
   });
 };

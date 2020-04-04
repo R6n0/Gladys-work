@@ -45,11 +45,16 @@ const actions = store => {
         zigbee2mqttSavingInProgress: true
       });
       try {
-        await state.httpClient.post('/api/v1/service/zigbee2mqtt/variable/ZIGBEE2MQTT_DRIVER_PATH', {
-          value: state.zigbee2mqttDriverPath
-        });
+        // If DriverPath contains '---------' then we remove ZIGBEE2MQTT_DRIVER_PATH variable
+        if (state.zigbee2mqttDriverPath.indexOf('/dev/') === -1) {
+          await state.httpClient.delete('/api/v1/service/zigbee2mqtt/variable/ZIGBEE2MQTT_DRIVER_PATH');
+        } else {
+          await state.httpClient.post('/api/v1/service/zigbee2mqtt/variable/ZIGBEE2MQTT_DRIVER_PATH', {
+            value: state.zigbee2mqttDriverPath
+          });
+        };
         await state.httpClient.post('/api/v1/service/zigbee2mqtt/connect');
-         store.setState({
+        store.setState({
           zigbee2mqttSaveStatus: RequestStatus.Success,
           zigbee2mqttSavingInProgress: false
         });

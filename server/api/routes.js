@@ -365,6 +365,10 @@ function getRoutes(gladys) {
       authenticated: true,
       controller: variableController.getValue,
     },
+    'delete /api/v1/variable/:variable_key': {
+      authenticated: true,
+      controller: variableController.destroy,
+    },
     // session
     'post /api/v1/session/:session_id/revoke': {
       authenticated: true,

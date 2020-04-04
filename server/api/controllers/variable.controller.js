@@ -3,7 +3,7 @@ const { NotFoundError } = require('../../utils/coreErrors');
 
 module.exports = function VariableController(gladys) {
   /**
-   * @api {post} /api/service/:service_name/variable/:variable_key Save service variable
+   * @api {post} /api/v1/service/:service_name/variable/:variable_key Save service variable
    * @apiName SaveVariable
    * @apiGroup Variable
    *
@@ -16,7 +16,7 @@ module.exports = function VariableController(gladys) {
   }
 
   /**
-   * @api {get} /api/service/:service_name/variable/:variable_key Get service variable
+   * @api {get} /api/v1/service/:service_name/variable/:variable_key Get service variable
    * @apiName GetVariableByService
    * @apiGroup Variable
    *
@@ -33,7 +33,7 @@ module.exports = function VariableController(gladys) {
   }
 
   /**
-   * @api {post} /api/variable/:variable_key Save variable
+   * @api {post} /api/v1/variable/:variable_key Save variable
    * @apiName SaveVariable
    * @apiGroup Variable
    *
@@ -45,7 +45,7 @@ module.exports = function VariableController(gladys) {
   }
 
   /**
-   * @api {get} /api/variable/:variable_key Get variable
+   * @api {get} /api/v1/variable/:variable_key Get variable
    * @apiName getVariable
    * @apiGroup Variable
    *
@@ -59,10 +59,24 @@ module.exports = function VariableController(gladys) {
     res.json({ value });
   }
 
+  /**
+   * @api {delete} /api/v1/variable/:variable_key delete
+   * @apiName delete
+   * @apiGroup Variable
+   *
+   */
+  async function destroy(req, res) {
+    await gladys.scene.destroy(req.params.variable_key);
+    res.json({
+      success: true,
+    });
+  }
+
   return Object.freeze({
     setForLocalService: asyncMiddleware(setForLocalService),
     setValue: asyncMiddleware(setValue),
     getValue: asyncMiddleware(getValue),
+    destroy: asyncMiddleware(destroy),
     getByLocalService: asyncMiddleware(getByLocalService),
   });
 };

@@ -54,7 +54,9 @@ const actions = store => {
           });
         }
         await state.httpClient.post('/api/v1/service/zigbee2mqtt/connect');
+        const zigbee2mqttStatus = await state.httpClient.get('/api/v1/service/zigbee2mqtt/status');
         store.setState({
+          zigbee2mqttStatus,
           zigbee2mqttSaveStatus: RequestStatus.Success,
           zigbee2mqttSavingInProgress: false
         });

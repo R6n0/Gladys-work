@@ -12,7 +12,7 @@ const { subscribe } = require('./subscribe');
  * @param {Object} mqttLibrary - MQTT lib.
  * @param {string} serviceId - UUID of the service in DB.
  * @example
- * const zigbee2mqttHandler = new Zigbee2mqttHandler(gladys, serviceId);
+ * const zigbee2mqttManager = new Zigbee2mqttManager(gladys, mqttLibrary, serviceId);
  */
 const Zigbee2mqttManager = function Zigbee2mqttManager(gladys, mqttLibrary, serviceId) {
   this.gladys = gladys;

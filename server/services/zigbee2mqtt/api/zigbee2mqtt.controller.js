@@ -29,9 +29,6 @@ module.exports = function Zigbee2mqttController(gladys, zigbee2mqttManager, serv
    */
   async function connect(req, res) {
     const zigbee2mqttDriverPath = await gladys.variable.getValue('ZIGBEE2MQTT_DRIVER_PATH', serviceId);
-    if (!zigbee2mqttDriverPath) {
-      throw new ServiceNotConfiguredError('ZIGBEE2MQTT_DRIVER_PATH_NOT_FOUND');
-    }
     zigbee2mqttManager.connect(zigbee2mqttDriverPath);
     res.json({
       success: true,
@@ -46,11 +43,11 @@ module.exports = function Zigbee2mqttController(gladys, zigbee2mqttManager, serv
     },
     'get /api/v1/service/zigbee2mqtt/status': {
       authenticated: true,
-      controller: asyncMiddleware(status),
+      controller: status,
     },
-    'get /api/v1/service/zigbee2mqtt/connect': {
+    'post /api/v1/service/zigbee2mqtt/connect': {
       authenticated: true,
-      controller: asyncMiddleware(connect),
+      controller: connect,
     },
   };
 };

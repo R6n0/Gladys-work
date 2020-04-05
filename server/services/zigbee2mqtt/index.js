@@ -1,11 +1,11 @@
 const logger = require('../../utils/logger');
-const Zigbee2mqttHandler = require('./lib');
+const Zigbee2mqttManager = require('./lib');
 const Zigbee2mqttController = require('./api/zigbee2mqtt.controller');
 const { ServiceNotConfiguredError } = require('../../utils/coreErrors');
 
 module.exports = function Zigbee2mqttService(gladys, serviceId) {
   const mqtt = require('mqtt');
-  const zigbee2mqttHandler = new Zigbee2mqttHandler(gladys, mqtt, serviceId);
+  const zigbee2mqttManager = new Zigbee2mqttManager(gladys, mqtt, serviceId);
 
   /**
    * @public
@@ -20,7 +20,7 @@ module.exports = function Zigbee2mqttService(gladys, serviceId) {
       throw new ServiceNotConfiguredError('ZIGBEE2MQTT_DRIVER_PATH_NOT_FOUND');
     }
     
-    zigbee2mqttHandler.connect(zigbee2mqttDriverPath);
+    zigbee2mqttManager.connect(zigbee2mqttDriverPath);
   }
 
   /**
@@ -31,13 +31,13 @@ module.exports = function Zigbee2mqttService(gladys, serviceId) {
    */
   function stop() {
     logger.log('Stopping Zigbee2mqtt service');
-    zigbee2mqttHandler.disconnect();
+    zigbee2mqttManager.disconnect();
   }
 
   return Object.freeze({
     start,
     stop,
-    device: zigbee2mqttHandler,
-    controllers: Zigbee2mqttController(zigbee2mqttHandler),
+    device: zigbee2mqttManager,
+    controllers: Zigbee2mqttController(gladys, zigbee2mqttManagerigbee2mqttManagerr, serviceId),
   });
 };

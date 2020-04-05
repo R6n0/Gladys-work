@@ -31,15 +31,11 @@ module.exports = function Zigbee2mqttController(zigbee2mqttManager) {
     const zigbee2mqttDriverPath = await gladys.variable.getValue('ZIGBEE2MQTT_DRIVER_PATH', serviceId);
     if (!zigbee2mqttDriverPath) {
       throw new ServiceNotConfiguredError('ZIGBEE2MQTT_DRIVER_PATH_NOT_FOUND');
-      res.json({
-        success: false,
-      });
-    } else {
-      zigbee2mqttManager.connect(zigbee2mqttDriverPath);
-      res.json({
-        success: true,
-      });
     }
+    zigbee2mqttManager.connect(zigbee2mqttDriverPath);
+    res.json({
+      success: true,
+    });
   }
 
 

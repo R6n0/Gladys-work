@@ -39,7 +39,7 @@ module.exports = function VariableController(gladys) {
    *
    * @apiParam {string} value value to destroy
    */
-  async function destroyForLocalService(req, res) {
+  async function destroyByLocalService(req, res) {
     const service = await gladys.service.getLocalServiceByName(req.params.service_name);
     const variable = await gladys.variable.destroy(req.params.variable_key, service.id);
     res.json(variable);

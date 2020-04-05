@@ -1,7 +1,7 @@
 const asyncMiddleware = require('../../../api/middlewares/asyncMiddleware');
 const { ServiceNotConfiguredError } = require('../../../utils/coreErrors');
 
-module.exports = function Zigbee2mqttController(zigbee2mqttManager) {
+module.exports = function Zigbee2mqttController(gladys, zigbee2mqttManager, serviceId) {
   /**
    * @api {post} /api/v1/service/zigbee2mqtt/discover Get discovered Zigbee2mqtt devices
    * @apiName discover
@@ -46,11 +46,11 @@ module.exports = function Zigbee2mqttController(zigbee2mqttManager) {
     },
     'get /api/v1/service/zigbee2mqtt/status': {
       authenticated: true,
-      controller: status,
+      controller: asyncMiddleware(status),
     },
     'get /api/v1/service/zigbee2mqtt/connect': {
       authenticated: true,
-      controller: connect,
+      controller: asyncMiddleware(connect),
     },
   };
 };

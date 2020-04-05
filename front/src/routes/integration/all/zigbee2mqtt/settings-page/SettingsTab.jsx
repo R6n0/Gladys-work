@@ -1,7 +1,6 @@
 import { Text } from 'preact-i18n';
 import get from 'get-value';
 import cx from 'classnames';
-import { RequestStatus } from '../../../../../utils/consts';
 
 const SettingsTab = ({ children, ...props }) => (
   <div class="card">

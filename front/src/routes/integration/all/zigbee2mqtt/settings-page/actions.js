@@ -42,7 +42,6 @@ const actions = store => {
     async saveDriverPath(state) {
       store.setState({
         zigbee2mqttSaveStatus: RequestStatus.Getting,
-        zigbee2mqttSavingInProgress: true
       });
       try {
         // If DriverPath contains '---------' then we remove ZIGBEE2MQTT_DRIVER_PATH variable
@@ -52,16 +51,15 @@ const actions = store => {
           await state.httpClient.post('/api/v1/service/zigbee2mqtt/variable/ZIGBEE2MQTT_DRIVER_PATH', {
             value: state.zigbee2mqttDriverPath
           });
-        };
+        }
         await state.httpClient.post('/api/v1/service/zigbee2mqtt/connect');
         store.setState({
           zigbee2mqttSaveStatus: RequestStatus.Success,
-          zigbee2mqttSavingInProgress: false
+          zigbee2mqttSavingInProgress: true
         });
       } catch (e) {
         store.setState({
           zigbee2mqttSaveStatus: RequestStatus.Error,
-          zigbee2mqttSavingInProgress: false
         });
       }
     },

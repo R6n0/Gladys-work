@@ -10,6 +10,7 @@ const createActions = store => {
   const integrationActions = createActionsIntegration(store);
   const actions = {
     async getContainers(state) {
+      console.log("getContainers state :", state)
       store.setState({
         DockerGetContainersStatus: RequestStatus.Getting
       });
@@ -18,14 +19,15 @@ const createActions = store => {
         let z2mContainerExists = false;
         let z2mEnabled = state.z2mEnabled;
         const dockerContainers = await state.httpClient.get('/api/v1/docker/container/list');
+        console.log("getContainers :", this.dockerContainers)
         dockerContainers.forEach(container => {
           container.created_at_formatted = dayjs(container.created_at * 1000)
             .locale(state.user.language)
             .fromNow();
-          if (container.name === 'zigbee2mqtt') {
+          if (container.name === '/zigbee2mqtt') {
             z2mContainerExists = true;
           }
-          if (container.name === 'mqtt4z2m') {
+          if (container.name === '/mqtt4z2m') {
             mqtt4z2mContainerExists = true;
           }
         });

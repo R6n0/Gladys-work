@@ -23,7 +23,7 @@ module.exports = function DockerController(gladys) {
   }
 
   /**
-   * @api {post} /api/v1/docker/container/start
+   * @api {post} /api/v1/docker/container/:container_name/start
    * @apiName startContainer
    * @apiGroup Docker
    */
@@ -33,7 +33,7 @@ module.exports = function DockerController(gladys) {
   }
 
   /**
-   * @api {post} /api/v1/docker/container/stop
+   * @api {post} /api/v1/docker/container/:container_name/stop
    * @apiName stopContainer
    * @apiGroup Docker
    */

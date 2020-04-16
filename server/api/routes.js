@@ -441,7 +441,16 @@ function getRoutes(gladys) {
       authenticated: true,
       controller: systemController.getUpgradeDownloadStatus,
     },
+    // docker
     'get /api/v1/docker/container/list': {
+      authenticated: true,
+      controller: dockerController.getContainers,
+    },
+    'get /api/v1/docker/container/:container_name/start': {
+      authenticated: true,
+      controller: dockerController.getContainers,
+    },
+    'get /api/v1/docker/container/:container_name/stop': {
       authenticated: true,
       controller: dockerController.getContainers,
     },

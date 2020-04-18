@@ -13,10 +13,13 @@ const createActions = store => {
       store.setState({
         DockerGetContainersStatus: RequestStatus.Getting
       });
+      let mqtt4z2mContainerExists = false;
+      let z2mContainerExists = false;
+      let mqtt4z2mContainerRunning = false;
+      let z2mContainerRunning = false;
+      let z2mEnabled = state.z2mEnabled;
+
       try {
-        let mqtt4z2mContainerExists = false;
-        let z2mContainerExists = false;
-        let z2mEnabled = state.z2mEnabled;
         const dockerContainers = await state.httpClient.get('/api/v1/docker/container/list');
         dockerContainers.forEach(container => {
           container.created_at_formatted = dayjs(container.created_at * 1000)
@@ -24,20 +27,36 @@ const createActions = store => {
             .fromNow();
           if (container.name === '/zigbee2mqtt') {
             z2mContainerExists = true;
+            if (container.state === 'running') {
+              z2mContainerRunning = true;
+            }
           }
           if (container.name === '/mqtt4z2m') {
             mqtt4z2mContainerExists = true;
+            if (container.state === 'running') {
+              mqtt4z2mContainerRunning = true;
+            }
           }
         });
+        if ( mqtt4z2mContainerRunning && z2mContainerRunning ) {
+          z2mEnabled = true
+        }
         store.setState({
           dockerContainers,
           z2mEnabled,
           z2mContainerExists,
           mqtt4z2mContainerExists,
+          z2mContainerRunning,
+          mqtt4z2mContainerRunning,
           DockerGetContainersStatus: RequestStatus.Success
         });
       } catch (e) {
         store.setState({
+          z2mEnabled,
+          z2mContainerExists,
+          mqtt4z2mContainerExists,
+          z2mContainerRunning,
+          mqtt4z2mContainerRunning,
           DockerGetContainersStatus: RequestStatus.Error
         });
       }
@@ -57,7 +76,7 @@ const createActions = store => {
       // if MQTT container exists, we just need to start it
       if (mqtt4z2mContainerExist) {
         try {
-          await state.httpClient.post('/api/v1/docker/mqtt4z2m/start');
+          await state.httpClient.post('/api/v1/docker/container/mqtt4z2m/start');
           console.log('Containers : ', state.dockerContainers);
           dockerContainers.forEach(container => {
             if (container.name === '/mqtt4z2m') {
@@ -82,7 +101,7 @@ const createActions = store => {
       // if Zigbee2mqtt container exists, we just need to start it
       if (z2mContainerExist) {
         try {
-          await state.httpClient.post('/api/v1/docker/zigbee2mqtt/start');
+          await state.httpClient.post('/api/v1/docker/container/zigbee2mqtt/start');
           console.log('Containers : ', state.dockerContainers);
           dockerContainers.forEach(container => {
             if (container.name === '/zigbee2mqtt') {
@@ -151,38 +170,20 @@ const createActions = store => {
     },
 
     async loadProps(state) {
-      let z2mEnabled = state.z2mEnabled;
-      let dockerContainers = state.dockerContainers;
-      let zigbee2mqttContainerID = state.zigbee2mqttContainerID;
+      let z2mEnabled = false;
 
-      dockerContainers.forEach(function(container) {
-        if (container.Name === '/zigbee2mqtt') {
-          zigbee2mqttContainerID = container.Id;
-        }
-      });
-
-      store.setState({
-        z2mEnabled,
-        dockerContainers,
-        zigbee2mqttContainerID
-      });
-      //  let zigbee2mqttDockername;
-
-      //      try {
-      //        zigbee2mqttAutoDeploy = await state.httpClient.get('/api/v1/service/zigbee2mqtt/variable/Z2M_AUTODEPLOY');
-      //        mqttUsername = await state.httpClient.get('/api/v1/service/mqtt/variable/MQTT_USERNAME');
-      //        if (mqttUsername.value) {
-      //          mqttPassword = '*********'; // this is just used so that the field is filled
-      //        }
-      //     } finally {
-      //       store.setState({
-      //         zigbee2mqttAutoDeploy: (zigbee2mqttAutoDeploy || {}).value,
-      //          mqttUsername: (mqttUsername || { value: '' }).value,
-      //          mqttPassword,
-      //          passwordChanges: false,
-      //          connected: false
-      //       });
-      //     }
+      try {
+        z2mEnabled = await state.httpClient.get('/api/v1/service/zigbee2mqtt/variable/ENABLED');
+        store.setState({
+          z2mEnabled,
+          connectMqttStatus: RequestStatus.Success
+        });
+      } catch (e) {
+        store.setState({
+          z2mEnabled,
+          connectMqttStatus: RequestStatus.Error,
+        });
+      };
     },
     updateConfiguration(state, e) {
       const data = {};

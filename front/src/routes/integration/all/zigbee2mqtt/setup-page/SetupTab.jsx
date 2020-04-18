@@ -87,7 +87,7 @@ class SetupTab extends Component {
               <h3 class="card-header">
                 <Text id="systemSettings.containers" />
                 <div class="page-options">
-                  <button class="btn btn-info" onClick={this.refreshContainersList()}>
+                  <button class="btn btn-info" onClick={this.refreshContainersList>
                     Refresh <i class="fe fe-refresh-cw" />
                   </button>
                 </div>

@@ -10,10 +10,11 @@ import SetupTab from './SetupTab';
   actions
 )
 class Zigbee2mqttNodePage extends Component {
-  componentWillMount() {
+  componentWillMount(store) {
 
     this.props.loadProps();
     this.props.getContainers();
+    this.z2mEnabled = store.z2mEnabled;
 
   }
 

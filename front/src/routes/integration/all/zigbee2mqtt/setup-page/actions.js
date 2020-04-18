@@ -39,7 +39,7 @@ const createActions = store => {
           }
         });
         if ( mqtt4z2mContainerRunning && z2mContainerRunning ) {
-          z2mEnabled = true
+          z2mEnabled = true;
         }
         store.setState({
           dockerContainers,
@@ -62,28 +62,26 @@ const createActions = store => {
       }
     },
     async startContainer(state) {
-      const dockerContainers = state.dockerContainers;
-      const z2mContainerExist = state.z2mContainerExist;
+      let dockerContainers = state.dockerContainers;
+      const z2mContainerExists = state.z2mContainerExists;
       let z2mEnabled = state.z2mEnabled;
-      const mqtt4z2mContainerExist = state.mqtt4z2mContainerExist;
-
+      const mqtt4z2mContainerExists = state.mqtt4z2mContainerExists;
+      dockerContainers.forEach(container => {
+        if (container.name === '/zigbee2mqtt' || container.name === '/mqtt4z2m') {
+          container.state = 'Starting';
+        }
+      });
       store.setState({
         z2mEnabled,
+        dockerContainers,
         zigbee2mqttContainerStatus: RequestStatus.Getting
       });
-      console.log('start container');
 
       // if MQTT container exists, we just need to start it
-      if (mqtt4z2mContainerExist) {
+      if (mqtt4z2mContainerExists) {
         try {
           await state.httpClient.post('/api/v1/docker/container/mqtt4z2m/start');
-          console.log('Containers : ', state.dockerContainers);
-          dockerContainers.forEach(container => {
-            if (container.name === '/mqtt4z2m') {
-              container.state = 'Starting';
-            }
-          });
-          console.log('Containers : ', state.dockerContainers);
+          dockerContainers = this.props.getContainers();
           store.setState({
             dockerContainers,
             zigbee2mqttContainerStatus: RequestStatus.Success
@@ -91,7 +89,9 @@ const createActions = store => {
         } catch (e) {
           const status = get(e, 'response.status');
           if (status) {
+            dockerContainers = this.props.getContainers();
             store.setState({
+              dockerContainers,
               zigbee2mqttContainerStatus: RequestStatus.Error
             });
           }
@@ -99,16 +99,10 @@ const createActions = store => {
       }
 
       // if Zigbee2mqtt container exists, we just need to start it
-      if (z2mContainerExist) {
+      if (z2mContainerExists) {
         try {
           await state.httpClient.post('/api/v1/docker/container/zigbee2mqtt/start');
-          console.log('Containers : ', state.dockerContainers);
-          dockerContainers.forEach(container => {
-            if (container.name === '/zigbee2mqtt') {
-              container.state = 'Starting';
-            }
-          });
-          console.log('Containers : ', state.dockerContainers);
+          dockerContainers = this.props.getContainers();
           store.setState({
             dockerContainers,
             zigbee2mqttContainerStatus: RequestStatus.Success
@@ -116,7 +110,9 @@ const createActions = store => {
         } catch (e) {
           const status = get(e, 'response.status');
           if (status) {
+            dockerContainers = this.props.getContainers();
             store.setState({
+              dockerContainers,
               zigbee2mqttContainerStatus: RequestStatus.Error
             });
           }
@@ -125,17 +121,19 @@ const createActions = store => {
 
     },
     async stopContainer(state) {
-      const dockerContainers = state.dockerContainers;
+      let dockerContainers = state.dockerContainers;
+      this.props.dockerContainers.forEach(container => {
+        if (container.name === '/zigbee2mqtt' || container.name === '/mqtt4z2m') {
+          container.state = 'Stopping';
+        }
+      });
       store.setState({
+        dockerContainers,
         zigbee2mqttContainerStatus: RequestStatus.Getting
       });
       try {
         await state.httpClient.post('/api/v1/docker/zigbee2mqtt/stop');
-        this.props.dockerContainers.forEach(container => {
-          if (container.name === '/zigbee2mqtt') {
-            container.state = 'Stopping';
-          }
-        });
+        dockerContainers = this.props.getContainers();
         store.setState({
           dockerContainers,
           zigbee2mqttContainerStatus: RequestStatus.Success
@@ -143,18 +141,16 @@ const createActions = store => {
       } catch (e) {
         const status = get(e, 'response.status');
         if (status) {
+          dockerContainers = this.props.getContainers();
           store.setState({
+            dockerContainers,
             zigbee2mqttContainerStatus: RequestStatus.Error
           });
         }
       }
       try {
         await state.httpClient.post('/api/v1/docker/mqtt4z2m/stop');
-        this.props.dockerContainers.forEach(container => {
-          if (container.name === '/mqtt4z2m') {
-            container.state = 'Stopping';
-          }
-        });
+        dockerContainers = this.props.getContainers();
         store.setState({
           dockerContainers,
           zigbee2mqttContainerStatus: RequestStatus.Success
@@ -162,7 +158,9 @@ const createActions = store => {
       } catch (e) {
         const status = get(e, 'response.status');
         if (status) {
+          dockerContainers = this.props.getContainers();
           store.setState({
+            dockerContainers,
             zigbee2mqttContainerStatus: RequestStatus.Error
           });
         }

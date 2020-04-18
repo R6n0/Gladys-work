@@ -5,7 +5,7 @@ import { RequestStatus } from '../../../../../utils/consts';
 
 class SetupTab extends Component {
   toggle = e => {
-    let checked;
+    let checked = this.props.z2mEnabled;
     console.log("Setup props : ", this.props);
 
     if (this.props.zigbee2mqttContainerStatus !== RequestStatus.Getting && this.props.dockerContainers) {
@@ -21,7 +21,8 @@ class SetupTab extends Component {
         this.props.stopContainer();
       }
 
-      this.setState(checked);
+      this.props.z2mEnabled = checked ;
+
     }
   };
 
@@ -77,7 +78,7 @@ class SetupTab extends Component {
               <tr>
                 <td class="text-right">
                   <label>
-                    <input type="radio" class="custom-switch-input" checked={checked} onClick={this.toggle} />
+                    <input type="radio" class="custom-switch-input" checked={props.z2mEnabled} onClick={this.toggle} />
                     <span class="custom-switch-indicator" />
                   </label>
                 </td>
@@ -87,7 +88,7 @@ class SetupTab extends Component {
               <h3 class="card-header">
                 <Text id="systemSettings.containers" />
                 <div class="page-options">
-                  <button class="btn btn-info" onClick={this.refreshContainersList>
+                  <button class="btn btn-info" onClick={this.refreshContainersList}>
                     Refresh <i class="fe fe-refresh-cw" />
                   </button>
                 </div>

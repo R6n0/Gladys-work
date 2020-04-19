@@ -2,6 +2,7 @@ import { Component } from 'preact';
 import { Text, MarkupText, Localizer } from 'preact-i18n';
 import cx from 'classnames';
 import { RequestStatus } from '../../../../../utils/consts';
+import { CheckStatus } from '../commons/CheckStatus.js';
 
 class SetupTab extends Component {
   toggle = e => {
@@ -39,27 +40,24 @@ class SetupTab extends Component {
           </h3>
         </div>
         <div class="card-body">
+          <CheckStatus />
+
           <div
             class={cx('dimmer', {
-              active: props.connectMqttStatus === RequestStatus.Getting
+              active: props.zigbee2mqttContainersStatus === RequestStatus.Getting
             })}
           >
             <div class="loader" />
             <div class="dimmer-content">
               <p>
-                <MarkupText id="integration.zigbee2mqtt.setup.zigbee2mqttDescription" />
+                <MarkupText id="integration.zigbee2mqtt.setup.description" />
               </p>
-              {props.connectMqttStatus === RequestStatus.Error && (
+              {props.zigbee2mqttContainersStatus === RequestStatus.Error && (
                 <p class="alert alert-danger">
                   <Text id="integration.zigbee2mqtt.setup.error" />
                 </p>
               )}
-              {props.connectMqttStatus === RequestStatus.Success && !props.mqttConnected && (
-                <p class="alert alert-info">
-                  <Text id="integration.zigbee2mqtt.setup.connecting" />
-                </p>
-              )}
-              {props.zigbee2mqttContainerStatus === RequestStatus.Getting && !props.mqttConnected && (
+              {props.zigbee2mqttContainersStatus === RequestStatus.Success && !props.mqttConnected && (
                 <p class="alert alert-info">
                   <Text id="integration.zigbee2mqtt.setup.connecting" />
                 </p>
@@ -67,11 +65,6 @@ class SetupTab extends Component {
               {props.mqttConnected && (
                 <p class="alert alert-success">
                   <Text id="integration.zigbee2mqtt.setup.connected" />
-                </p>
-              )}
-              {props.mqttConnectionError && (
-                <p class="alert alert-danger">
-                  <Text id="integration.zigbee2mqtt.setup.connectionError" /> - {props.mqttConnectionError}
                 </p>
               )}
 
@@ -82,11 +75,11 @@ class SetupTab extends Component {
                     <span class="custom-switch-indicator" />
                   </label>
                 </td>
-                <td>{' Enable Zigbee2mqtt'}</td>
+                <td><Text id="integration.zigbee2mqtt.setup.enable" /></td>
               </tr>
 
               <h3 class="card-header">
-                <Text id="systemSettings.containers" />
+                <Text id="integration.zigbee2mqtt.setup.containersTitle" />
                 <div class="page-options">
                   <button class="btn btn-info" onClick={this.refreshContainersList}>
                     Refresh <i class="fe fe-refresh-cw" />

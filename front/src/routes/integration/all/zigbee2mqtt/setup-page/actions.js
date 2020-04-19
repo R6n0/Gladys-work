@@ -81,7 +81,7 @@ const createActions = store => {
       if (mqtt4z2mContainerExists) {
         try {
           await state.httpClient.post('/api/v1/docker/container/mqtt4z2m/start');
-          dockerContainers = this.props.getContainers();
+          dockerContainers = this.getContainers();
           store.setState({
             dockerContainers,
             zigbee2mqttContainerStatus: RequestStatus.Success
@@ -89,7 +89,7 @@ const createActions = store => {
         } catch (e) {
           const status = get(e, 'response.status');
           if (status) {
-            dockerContainers = this.props.getContainers();
+            dockerContainers = this.getContainers();
             store.setState({
               dockerContainers,
               zigbee2mqttContainerStatus: RequestStatus.Error
@@ -102,7 +102,7 @@ const createActions = store => {
       if (z2mContainerExists) {
         try {
           await state.httpClient.post('/api/v1/docker/container/zigbee2mqtt/start');
-          dockerContainers = this.props.getContainers();
+          dockerContainers = this.getContainers();
           store.setState({
             dockerContainers,
             zigbee2mqttContainerStatus: RequestStatus.Success
@@ -110,7 +110,7 @@ const createActions = store => {
         } catch (e) {
           const status = get(e, 'response.status');
           if (status) {
-            dockerContainers = this.props.getContainers();
+            dockerContainers = this.getContainers();
             store.setState({
               dockerContainers,
               zigbee2mqttContainerStatus: RequestStatus.Error
@@ -122,7 +122,7 @@ const createActions = store => {
     },
     async stopContainer(state) {
       let dockerContainers = state.dockerContainers;
-      this.props.dockerContainers.forEach(container => {
+      dockerContainers.forEach(container => {
         if (container.name === '/zigbee2mqtt' || container.name === '/mqtt4z2m') {
           container.state = 'Stopping';
         }
@@ -133,15 +133,15 @@ const createActions = store => {
       });
       try {
         await state.httpClient.post('/api/v1/docker/zigbee2mqtt/stop');
-        dockerContainers = this.props.getContainers();
+        dockerContainers = this.getContainers();
         store.setState({
           dockerContainers,
-          zigbee2mqttContainerStatus: RequestStatus.Success
+          zigbee2mqttStoppingStatus: RequestStatus.Success
         });
       } catch (e) {
         const status = get(e, 'response.status');
         if (status) {
-          dockerContainers = this.props.getContainers();
+          dockerContainers = this.getContainers();
           store.setState({
             dockerContainers,
             zigbee2mqttContainerStatus: RequestStatus.Error
@@ -150,7 +150,7 @@ const createActions = store => {
       }
       try {
         await state.httpClient.post('/api/v1/docker/mqtt4z2m/stop');
-        dockerContainers = this.props.getContainers();
+        dockerContainers = this.getContainers();
         store.setState({
           dockerContainers,
           zigbee2mqttContainerStatus: RequestStatus.Success
@@ -158,7 +158,7 @@ const createActions = store => {
       } catch (e) {
         const status = get(e, 'response.status');
         if (status) {
-          dockerContainers = this.props.getContainers();
+          dockerContainers = this.getContainers();
           store.setState({
             dockerContainers,
             zigbee2mqttContainerStatus: RequestStatus.Error
@@ -169,6 +169,9 @@ const createActions = store => {
 
     async loadProps(state) {
       let z2mEnabled = false;
+      store.setState({
+        connectMqttStatus: RequestStatus.Getting
+      });
 
       try {
         z2mEnabled = await state.httpClient.get('/api/v1/service/zigbee2mqtt/variable/ENABLED');
@@ -182,36 +185,6 @@ const createActions = store => {
           connectMqttStatus: RequestStatus.Error,
         });
       };
-    },
-    updateConfiguration(state, e) {
-      const data = {};
-      data[e.target.name] = e.target.value;
-      if (e.target.name === 'mqttPassword') {
-        data.passwordChanges = true;
-      }
-      store.setState(data);
-    },
-    async saveConfiguration(state) {
-      event.preventDefault();
-      store.setState({
-        connectMqttStatus: RequestStatus.Getting,
-        mqttConnected: false
-      });
-      try {
-        await state.httpClient.post('/api/v1/service/zigbee2mqtt/variable/ENABLED', {
-          value: state.z2mEnabled
-        });
-      
-      await state.httpClient.post(`/api/v1/service/mqtt/connect`);
-
-        store.setState({
-          connectMqttStatus: RequestStatus.Success
-        });
-      } catch (e) {
-        store.setState({
-          connectMqttStatus: RequestStatus.Error,
-        });
-      }
     },
     displayConnectedMessage(state) {
       // display 3 seconds a message "MQTT connected"

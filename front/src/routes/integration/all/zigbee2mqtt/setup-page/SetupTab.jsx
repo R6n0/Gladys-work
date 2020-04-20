@@ -44,7 +44,7 @@ class SetupTab extends Component {
 
           <div
             class={cx('dimmer', {
-              active: props.zigbee2mqttContainersStatus === RequestStatus.Getting
+              active: props.zigbee2mqttContainerStatus === RequestStatus.Getting
             })}
           >
             <div class="loader" />
@@ -52,12 +52,12 @@ class SetupTab extends Component {
               <p>
                 <MarkupText id="integration.zigbee2mqtt.setup.description" />
               </p>
-              {props.zigbee2mqttContainersStatus === RequestStatus.Error && (
+              {props.zigbee2mqttContainerStatus === RequestStatus.Error && (
                 <p class="alert alert-danger">
                   <Text id="integration.zigbee2mqtt.setup.error" />
                 </p>
               )}
-              {props.zigbee2mqttContainersStatus === RequestStatus.Success && !props.mqttConnected && (
+              {props.zigbee2mqttContainerStatus === RequestStatus.Success && !props.mqttConnected && (
                 <p class="alert alert-info">
                   <Text id="integration.zigbee2mqtt.setup.connecting" />
                 </p>

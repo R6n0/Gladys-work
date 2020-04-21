@@ -289,7 +289,6 @@
         "description": "This service uses two independant docker containers (a MQTT broker and Zigbee2mqtt). Enable Zigbee2mqtt for deploying these containers. Learn more on the Zigbee2mqtt tuto page",
         "enable": "Enable Zigbee2mqtt",
         "containersTitle": " Zigbee2mqtt Docker containers",
-        "connecting": "Zigbee2mqtt is starting ! It may take a while...",
         "connected": "Zigbee2mqtt was started with success.",
         "error": "An error occured while starting Zigbee2mqtt."
       },

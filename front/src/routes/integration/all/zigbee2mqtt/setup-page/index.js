@@ -9,10 +9,10 @@ import SetupTab from './SetupTab';
   'user,session,z2mEnabled,dockerContainers,z2mContainerExists,mqtt4z2mContainerExists,zigbee2mqttContainerStatus,connectMqttStatus,mqttConnected,mqttConnectionError',
   actions
 )
-class Zigbee2mqttNodePage extends Component {
+class Zigbee2mqttSetupPage extends Component {
   componentWillMount() {
 
-    this.z2mEnabled = false;
+//    this.z2mEnabled = false;
     this.props.loadProps();
     this.props.getContainers();
 
@@ -28,4 +28,4 @@ class Zigbee2mqttNodePage extends Component {
   }
 }
 
-export default Zigbee2mqttNodePage;
+export default Zigbee2mqttSetupPage;

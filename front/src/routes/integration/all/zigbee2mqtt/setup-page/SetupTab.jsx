@@ -2,21 +2,18 @@ import { Component } from 'preact';
 import { Text, MarkupText, Localizer } from 'preact-i18n';
 import cx from 'classnames';
 import { RequestStatus } from '../../../../../utils/consts';
-import { CheckStatus } from '../commons/CheckStatus.js';
+import CheckStatus from '../commons/CheckStatus.js';
 
 class SetupTab extends Component {
   toggle = e => {
     let checked = this.props.z2mEnabled;
-    console.log("Setup props : ", this.props);
 
     if (this.props.zigbee2mqttContainerStatus !== RequestStatus.Getting && this.props.dockerContainers) {
-      checked = !this.checked;
+      checked = !e.checked;
 
       console.log('toggle : ', checked);
 
       if (checked) {
-        // query API for container start
-        //        this.props.startContainer("xplanet");
         this.props.startContainer();
       } else {
         this.props.stopContainer();
@@ -27,11 +24,7 @@ class SetupTab extends Component {
     }
   };
 
-  refreshContainersList = e => {
-    this.props.getContainers();
-  };
-
-  render(props, { checked }, {}) {
+  render(props, {}) {
     return (
       <div class="card">
         <div class="card-header">
@@ -57,11 +50,6 @@ class SetupTab extends Component {
                   <Text id="integration.zigbee2mqtt.setup.error" />
                 </p>
               )}
-              {props.zigbee2mqttContainerStatus === RequestStatus.Success && !props.mqttConnected && (
-                <p class="alert alert-info">
-                  <Text id="integration.zigbee2mqtt.setup.connecting" />
-                </p>
-              )}
               {props.mqttConnected && (
                 <p class="alert alert-success">
                   <Text id="integration.zigbee2mqtt.setup.connected" />
@@ -71,7 +59,7 @@ class SetupTab extends Component {
               <tr>
                 <td class="text-right">
                   <label>
-                    <input type="radio" class="custom-switch-input" checked={props.z2mEnabled} onClick={this.toggle} />
+                    <input type="radio" class="custom-switch-input" checked={props.z2mEnabled} onClick={props.toggleEnable} />
                     <span class="custom-switch-indicator" />
                   </label>
                 </td>
@@ -81,7 +69,7 @@ class SetupTab extends Component {
               <h3 class="card-header">
                 <Text id="integration.zigbee2mqtt.setup.containersTitle" />
                 <div class="page-options">
-                  <button class="btn btn-info" onClick={this.refreshContainersList}>
+                  <button class="btn btn-info" onClick={props.getContainers}>
                     Refresh <i class="fe fe-refresh-cw" />
                   </button>
                 </div>

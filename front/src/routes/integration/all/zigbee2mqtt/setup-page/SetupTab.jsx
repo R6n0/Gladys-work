@@ -35,84 +35,81 @@ class SetupTab extends Component {
         <div class="card-body">
           <CheckStatus />
 
-          <div
-            class={cx('dimmer', {
-              active: props.zigbee2mqttContainerStatus === RequestStatus.Getting
-            })}
-          >
-            <div class="loader" />
-            <div class="dimmer-content">
-              <p>
-                <MarkupText id="integration.zigbee2mqtt.setup.description" />
-              </p>
-              {props.zigbee2mqttContainerStatus === RequestStatus.Error && (
-                <p class="alert alert-danger">
-                  <Text id="integration.zigbee2mqtt.setup.error" />
-                </p>
-              )}
-              {props.mqttConnected && (
-                <p class="alert alert-success">
-                  <Text id="integration.zigbee2mqtt.setup.connected" />
-                </p>
-              )}
+          <p>
+            <MarkupText id="integration.zigbee2mqtt.setup.description" />
+          </p>
+          {props.zigbee2mqttContainerStatus === RequestStatus.Error && (
+            <p class="alert alert-danger">
+              <Text id="integration.zigbee2mqtt.setup.error" />
+            </p>
+          )}
+          {props.mqttConnected && (
+            <p class="alert alert-success">
+              <Text id="integration.zigbee2mqtt.setup.connected" />
+            </p>
+          )}
 
-              <tr>
-                <td class="text-right">
-                  <label>
-                    <input type="radio" class="custom-switch-input" checked={props.z2mEnabled} onClick={props.toggleEnable} />
-                    <span class="custom-switch-indicator" />
-                  </label>
-                </td>
-                <td><Text id="integration.zigbee2mqtt.setup.enable" /></td>
-              </tr>
+          <tr>
+            <td class="text-right">
+              <label>
+                <input type="radio" class="custom-switch-input" checked={props.z2mEnabled} onClick={this.toggle} />
+                <span class="custom-switch-indicator" />
+              </label>
+            </td>
+            <td><Text id="integration.zigbee2mqtt.setup.enable" /></td>
+          </tr>
 
-              <h3 class="card-header">
-                <Text id="integration.zigbee2mqtt.setup.containersTitle" />
-                <div class="page-options">
-                  <button class="btn btn-info" onClick={props.getContainers}>
-                    Refresh <i class="fe fe-refresh-cw" />
-                  </button>
-                </div>
-              </h3>
-              <div class="table-responsive" style={{ maxHeight: '200px' }}>
-                <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
-                  <thead>
-                    <tr>
-                      <th>
-                        <Text id="systemSettings.containerName" />
-                      </th>
-                      <th>
-                        <Text id="systemSettings.containerCreated" />
-                      </th>
-                      <th>
-                        <Text id="systemSettings.containerStatus" />
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {props.dockerContainers &&
-                      props.dockerContainers.map(container => (
-                        <tr>
-                          <td>{container.name}</td>
-                          <td>{container.created_at_formatted}</td>
-                          <td>
-                            <span
-                              class={cx('badge', {
-                                'badge-success': container.state === 'running',
-                                'badge-warning': container.state !== 'running'
-                              })}
-                            >
-                              <Text id={`systemSettings.containerState.${container.state}`} />
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
+          <h3 class="card-header">
+            <Text id="integration.zigbee2mqtt.setup.containersTitle" />
+            <div class="page-options">
+              <button class="btn btn-info" onClick={props.getContainers}>
+                Refresh <i class="fe fe-refresh-cw" />
+              </button>
             </div>
+          </h3>
+          <div class="table-responsive" style={{ maxHeight: '200px' }}>
+            <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
+              <thead>
+                <tr>
+                  <th>
+                    <Text id="docker.containerName" />
+                  </th>
+                  <th>
+                    <Text id="docker.containerCreated" />
+                  </th>
+                  <th>
+                    <Text id="docker.containerStatus" />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {props.dockerContainers &&
+                  props.dockerContainers.map(container => (
+                    <tr>
+                      <td>{container.name}</td>
+                      <td>{container.created_at_formatted}</td>
+                      <td>
+                        <span
+                          class={cx('badge', {
+                            'badge-success': container.state === 'running',
+                            'badge-warning': container.state !== 'running'
+                          })}
+                        >
+                          <Text id={`docker.containerState.${container.state}`} />
+                        </span>
+                        <div
+                          class={cx('dimmer', {
+                            active: props.zigbee2mqttContainerStatus === RequestStatus.Getting
+                          })}
+                        >
+                          <div class="loader" />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
-        </div>
       </div>
     );
   }

@@ -60,27 +60,6 @@ const createActions = store => {
         });
       }
     },
-    toggleEnable(state) {
-      let checked = state.z2mEnabled;
-      const zigbee2mqttContainerStatus = state.zigbee2mqttContainerStatus;
-      const dockerContainers = state.dockerContainers;
-
-      if (zigbee2mqttContainerStatus !== RequestStatus.Getting && dockerContainers) {
-        checked = !checked;
-  
-        console.log('toggle : ', checked);
-  
-        if (checked) {
-          this.startContainer();
-        } else {
-          this.stopContainer();
-        }
-  
-        store.setState({
-          z2mEnabled: checked
-        });
-      }
-    },
     async startContainer(state) {
       let dockerContainers = state.dockerContainers;
       let z2mEnabled = true;
@@ -140,7 +119,7 @@ const createActions = store => {
     },
     async stopContainer(state) {
       let dockerContainers = state.dockerContainers;
-      let z2mEnabled = true;
+      let z2mEnabled = false;
       let error=false;
       dockerContainers.forEach(container => {
         if (container.name === '/zigbee2mqtt' || container.name === '/mqtt4z2m') {
@@ -173,7 +152,7 @@ const createActions = store => {
         this.saveVariable();
         store.setState({
           dockerContainers,
-          zigbee2mqttStoppingStatus: RequestStatus.Success
+          zigbee2mqttContainerStatus: RequestStatus.Success
         });
       }
 
@@ -184,7 +163,9 @@ const createActions = store => {
         actionStatus: RequestStatus.Getting
       });
       try {
-        await state.httpClient.post('/api/v1/service/zigbee2mqtt/variable/ENABLED', state.z2mEnabled);
+        await state.httpClient.post('/api/v1/service/zigbee2mqtt/variable/ENABLED', {
+           value: state.z2mEnabled 
+        });
         store.setState({
           actionStatus: RequestStatus.Success
         });
@@ -194,7 +175,7 @@ const createActions = store => {
         });
       };
 
-    }
+    },
 
     async loadProps(state) {
       let z2mEnabled = false;
@@ -212,7 +193,7 @@ const createActions = store => {
           z2mEnabled,
           actionStatus: RequestStatus.Error,
         });
-      };
+      }
     },
 
     displayConnectedMessage(state) {

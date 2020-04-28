@@ -17,18 +17,14 @@ function connect(driverPath) {
     this.usbConfigured = false; 
   }
 
-  //= =============================================
-  // Pour simuler dongle OK
-  // this.usbConfigured = true;
-
   // Loads MQTT service
   logger.log('starting MQTT service for Zigbee2mqtt');
-  this.mqttClient = this.mqttLibrary.connect('mqtt://192.168.64.131:1883', {
+  this.mqttClient = this.mqttLibrary.connect('mqtt://mqtt4z2m:1883', {
     username: '',
     password: '',
   });
   this.mqttClient.on('connect', () => {
-    logger.info(`Connected to MQTT container mqtt://mqtt-broker`);
+    logger.info(`Connected to MQTT container mqtt://mqtt4z2m:1883`);
     Object.keys(this.topicBinds).forEach((topic) => {
       this.subscribe(topic, this.topicBinds[topic]);
     });
@@ -44,15 +40,15 @@ function connect(driverPath) {
       payload: err,
     });
   });
-  /*    this.mqttClient.on('message', (topic, message) => {
-    this.handleNewMessage(topic, message.toString());
+  this.mqttClient.on('message', (topic, message) => {
+    this.handleMqttMessage(topic, message.toString());
   });
-*/
+
 
   //  this.mqttService = this.gladys.service.getService('mqtt');
 
   // Subscribe to Zigbee2mqtt topics
-  this.subscribe('zigbee2mqtt/#', this.handleMqttMessage.bind(this));
+    this.mqttClient.subscribe('zigbee2mqtt/#', this.handleMqttMessage.bind(this));
 }
 
 module.exports = {

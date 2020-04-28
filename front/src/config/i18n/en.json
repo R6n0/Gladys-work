@@ -748,6 +748,23 @@
       "dead": "Dead"
     }
   },
+  "docker": {
+    "containers": "Containers",
+    "containerName": "Name",
+    "containerCreated": "Created",
+    "containerStatus": "Status",
+    "containerState": {
+      "created": "Created",
+      "starting": "Starting",
+      "restarting": "Restarting",
+      "running": "Running",
+      "stopping": "Stopping",
+      "removing": "Removing",
+      "paused": "Paused",
+      "exited": "Exited",
+      "dead": "Dead"
+    }
+  },
   "newScene": {
     "cardTitle": "New scene",
     "nameLabel": "Name",

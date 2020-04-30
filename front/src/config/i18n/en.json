@@ -286,7 +286,7 @@
       },
       "setup": {
         "title": "Zigbe2mqtt configuration",
-        "description": "This service uses two independant docker containers (a MQTT broker and Zigbee2mqtt). Enable Zigbee2mqtt for deploying these containers. Learn more on the Zigbee2mqtt tuto page",
+        "description": "This service uses two independant docker containers (MQTT broker and Zigbee2mqtt). Enable Zigbee2mqtt for deploying these containers. Learn more on the Zigbee2mqtt documentation page",
         "enable": "Enable Zigbee2mqtt",
         "containersTitle": " Zigbee2mqtt Docker containers",
         "connected": "Zigbee2mqtt was started with success.",

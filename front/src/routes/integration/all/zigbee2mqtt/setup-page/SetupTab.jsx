@@ -9,7 +9,7 @@ class SetupTab extends Component {
     let checked = this.props.z2mEnabled;
 
     if (this.props.zigbee2mqttContainerStatus !== RequestStatus.Getting && this.props.dockerContainers) {
-      checked = !e.checked;
+      checked = !checked;
 
       console.log('toggle : ', checked);
 
@@ -80,6 +80,7 @@ class SetupTab extends Component {
                   <th>
                     <Text id="docker.containerStatus" />
                   </th>
+                  <th />
                 </tr>
               </thead>
               <tbody>
@@ -97,19 +98,23 @@ class SetupTab extends Component {
                         >
                           <Text id={`docker.containerState.${container.state}`} />
                         </span>
-                        <div
-                          class={cx('dimmer', {
-                            active: props.zigbee2mqttContainerStatus === RequestStatus.Getting
+                      </td>
+                      <td>
+                        <span
+                           class={cx('dimmer', {
+                            active: container.state === 'starting' || container.state === 'stopping'
                           })}
                         >
                           <div class="loader" />
-                        </div>
+                        </span>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                }
               </tbody>
             </table>
           </div>
+        </div>
       </div>
     );
   }

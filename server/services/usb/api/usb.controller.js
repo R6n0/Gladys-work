@@ -8,7 +8,17 @@ module.exports = function UsbController({ list }) {
    */
   async function getUsbPorts(req, res) {
     const ports = await list();
-    res.json(ports);
+
+    res.json(
+      ports.map((port) => {
+        return {
+          comPath: port.path,
+          comName: port.manufacturer,
+          comPID: port.productId,
+          comVID: port.vendorId,
+        };
+      }),
+    );
   }
 
   return {

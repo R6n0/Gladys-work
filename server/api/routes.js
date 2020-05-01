@@ -15,7 +15,7 @@ const SessionController = require('./controllers/session.controller');
 const ServiceController = require('./controllers/service.controller');
 const SceneController = require('./controllers/scene.controller');
 const SystemController = require('./controllers/system.controller');
-const TriggerController = require('./controllers/trigger.controller');
+const DockerController = require('./controllers/docker.controller');
 const VariableController = require('./controllers/variable.controller');
 const WeatherController = require('./controllers/weather.controller');
 
@@ -45,7 +45,7 @@ function getRoutes(gladys) {
   const serviceController = ServiceController(gladys);
   const sceneController = SceneController(gladys);
   const systemController = SystemController(gladys);
-  const triggerController = TriggerController(gladys);
+  const dockerController = DockerController(gladys);
   const weatherController = WeatherController(gladys);
 
   const routes = {};
@@ -357,6 +357,10 @@ function getRoutes(gladys) {
       authenticated: true,
       controller: variableController.getByLocalService,
     },
+    'delete /api/v1/service/:service_name/variable/:variable_key': {
+      authenticated: true,
+      controller: variableController.destroyByLocalService,
+    },
     'post /api/v1/variable/:variable_key': {
       authenticated: true,
       controller: variableController.setValue,
@@ -364,6 +368,10 @@ function getRoutes(gladys) {
     'get /api/v1/variable/:variable_key': {
       authenticated: true,
       controller: variableController.getValue,
+    },
+    'delete /api/v1/variable/:variable_key': {
+      authenticated: true,
+      controller: variableController.destroy,
     },
     // session
     'post /api/v1/session/:session_id/revoke': {
@@ -433,22 +441,18 @@ function getRoutes(gladys) {
       authenticated: true,
       controller: systemController.getUpgradeDownloadStatus,
     },
-    // trigger
-    'post /api/v1/trigger': {
+    // docker
+    'get /api/v1/docker/container/list': {
       authenticated: true,
-      controller: triggerController.create,
+      controller: dockerController.getContainers,
     },
-    'get /api/v1/trigger': {
+    'post /api/v1/docker/container/:container_name/start': {
       authenticated: true,
-      controller: triggerController.get,
+      controller: dockerController.startContainer,
     },
-    'patch /api/v1/trigger/:trigger_selector': {
+    'post /api/v1/docker/container/:container_name/stop': {
       authenticated: true,
-      controller: triggerController.update,
-    },
-    'delete /api/v1/trigger/:trigger_selector': {
-      authenticated: true,
-      controller: triggerController.destroy,
+      controller: dockerController.stopContainer,
     },
     // user
     'post /api/v1/user': {

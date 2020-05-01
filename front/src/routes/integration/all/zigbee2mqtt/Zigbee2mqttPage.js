@@ -36,6 +36,28 @@ const Zigbee2mqttPage = ({ children, user }) => (
                     <Text id="integration.zigbee2mqtt.discoverTab" />
                   </Link>
 
+                  <Link
+                    href="/dashboard/integration/device/zigbee2mqtt/settings"
+                    activeClassName="active"
+                    class="list-group-item list-group-item-action d-flex align-items-center"
+                  >
+                    <span class="icon mr-3">
+                      <i class="fe fe-settings" />
+                    </span>
+                    <Text id="integration.zigbee2mqtt.settingsTab" />
+                  </Link>
+
+                  <Link
+                    href="/dashboard/integration/device/zigbee2mqtt/setup"
+                    activeClassName="active"
+                    class="list-group-item list-group-item-action d-flex align-items-center"
+                  >
+                    <span class="icon mr-3">
+                      <i class="fe fe-sliders" />
+                    </span>
+                    <Text id="integration.zigbee2mqtt.setupTab" />
+                  </Link>
+
                   <DeviceConfigurationLink
                     user={user}
                     documentKey="zigbee2mqtt-configuration"

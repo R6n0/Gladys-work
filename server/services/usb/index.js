@@ -1,7 +1,7 @@
 const logger = require('../../utils/logger');
 const UsbController = require('./api/usb.controller');
 
-module.exports = function ZwaveService(gladys, serviceId) {
+module.exports = function UsbService(gladys, serviceId) {
   const SerialPort = require('serialport');
   /**
    * @public
@@ -20,15 +20,7 @@ module.exports = function ZwaveService(gladys, serviceId) {
    * gladys.services.usb.list();
    */
   async function list() {
-    return new Promise((resolve, reject) => {
-      SerialPort.list((err, ports) => {
-        if (err) {
-          return reject(err);
-        }
-
-        return resolve(ports);
-      });
-    });
+    return SerialPort.list();
   }
 
   /**

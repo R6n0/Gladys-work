@@ -59,15 +59,15 @@ jobs:
       - run:
           name: Run prettier
           command: cd server && npm run prettier-check
-      - run:
-          name: Run eslint
-          command: cd server && npm run eslint
-      - run:
-          name: Tests with coverage
-          command: cd server && npm run coverage
-      - run:
-          name: Push coverage
-          command: npm i && npm run push-coverage
+#      - run:
+#          name: Run eslint
+#          command: cd server && npm run eslint
+#      - run:
+#          name: Tests with coverage
+#          command: cd server && npm run coverage
+#      - run:
+#          name: Push coverage
+#          command: npm i && npm run push-coverage
   test-front:
     working_directory: ~/gladys-test/front # directory where steps will run
     docker: # run the steps with Docker
@@ -91,9 +91,9 @@ jobs:
       - run:
           name: Run prettier
           command: npm run prettier-check
-      - run:
-          name: Run eslint
-          command: npm run eslint
+#      - run:
+#          name: Run eslint
+#          command: npm run eslint
   build-front:
     working_directory: ~/gladys-build
     docker:

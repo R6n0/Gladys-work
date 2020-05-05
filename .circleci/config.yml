@@ -167,11 +167,11 @@ workflows:
 #              only: /v*/
 #            branches:
 #              only: master
-#      - build-arm64v8:
-#          requires:
-#            - build-front
-#          filters:
-#            tags:
-#              only: /v*/
-#            branches:
-#              only: master
+      - build-arm64v8:
+          requires:
+            - build-front
+          filters:
+            tags:
+              only: /v*/
+            branches:
+              only: zigbee2mqtt-service-reno
